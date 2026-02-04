@@ -1,0 +1,1184 @@
+<!--
+HOW TO RUN
+1) Copy this entire file into a new file named: index.html
+2) Open index.html in any modern browser (Chrome, Edge, Firefox, Safari)
+
+Notes:
+- No build step. No backend required.
+- The contact form opens the user’s email client with a pre-filled draft (mailto).
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Triumvirate Public Relations (Tempe, AZ) helps owner-operated businesses build and maintain a credible online presence." />
+  <title>Triumvirate Public Relations • Tempe, AZ</title>
+
+  <style>
+    :root{
+      --bg: #0b0f17;
+      --surface: #0f1624;
+      --surface2: #111b2c;
+      --text: #e7edf6;
+      --muted: #b4c0d3;
+      --muted2: #7f90ab;
+      --border: rgba(231,237,246,.12);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --shadow2: 0 6px 18px rgba(0,0,0,.28);
+      --accent: #8db6ff;
+      --accent2: #b7f0c2;
+      --focus: 0 0 0 3px rgba(141,182,255,.35);
+      --radius: 16px;
+      --radius2: 12px;
+      --max: 1120px;
+      --navH: 72px;
+      --divider: linear-gradient(90deg, rgba(231,237,246,0), rgba(231,237,246,.14), rgba(231,237,246,0));
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    /* Base */
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      background:
+        radial-gradient(1200px 700px at 10% -10%, rgba(141,182,255,.18), transparent 55%),
+        radial-gradient(900px 600px at 90% 0%, rgba(183,240,194,.10), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+    img{ max-width:100%; height:auto; }
+    .container{
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+    .skip-link{
+      position:absolute;
+      left:-999px;
+      top: 12px;
+      background: var(--surface2);
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow2);
+      z-index: 9999;
+    }
+    .skip-link:focus{
+      left: 16px;
+      outline: none;
+      box-shadow: var(--focus), var(--shadow2);
+    }
+
+    /* Header / Nav */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,23,.70);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav{
+      height: var(--navH);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      white-space: nowrap;
+    }
+    .brand-mark{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(141,182,255,.30), rgba(183,240,194,.18));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow2);
+    }
+    nav ul{
+      display:none;
+      list-style:none;
+      padding:0;
+      margin:0;
+      gap: 18px;
+      align-items:center;
+    }
+    nav a{
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 10px;
+      border-radius: 10px;
+    }
+    nav a:focus-visible{ outline:none; box-shadow: var(--focus); }
+    nav a:hover{ color: var(--text); text-decoration:none; background: rgba(231,237,246,.06); }
+
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(231,237,246,.06);
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+      box-shadow: none;
+      cursor:pointer;
+    }
+    .btn:hover{ background: rgba(231,237,246,.09); text-decoration:none; }
+    .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(141,182,255,.26), rgba(141,182,255,.14));
+      border-color: rgba(141,182,255,.35);
+    }
+    .btn.primary:hover{ background: linear-gradient(135deg, rgba(141,182,255,.32), rgba(141,182,255,.16)); }
+    .icon-btn{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(231,237,246,.06);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+    }
+    .icon-btn:hover{ background: rgba(231,237,246,.09); }
+    .icon-btn:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    /* Mobile menu */
+    .mobile-panel{
+      display:none;
+      border-top: 1px solid var(--border);
+      background: rgba(11,15,23,.82);
+      padding: 12px 0 16px;
+    }
+    .mobile-panel a{
+      display:block;
+      padding: 12px 12px;
+      color: var(--muted);
+      border-radius: 12px;
+      margin: 6px 0;
+      font-weight: 650;
+    }
+    .mobile-panel a:hover{ background: rgba(231,237,246,.06); color: var(--text); text-decoration:none; }
+    .mobile-panel a:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    /* Sections */
+    section{
+      scroll-margin-top: calc(var(--navH) + 14px);
+      padding: 64px 0;
+    }
+    .section-head{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+    .kicker{
+      color: var(--muted2);
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    h1, h2, h3{
+      margin:0;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    h1{ font-size: clamp(28px, 4vw, 46px); }
+    h2{ font-size: clamp(22px, 3vw, 34px); }
+    h3{ font-size: 18px; }
+    p{ margin: 0; color: var(--muted); }
+
+    .divider{
+      height: 1px;
+      background: var(--divider);
+    }
+
+    /* Hero */
+    .hero{
+      padding-top: 46px;
+    }
+    .hero-grid{
+      display:grid;
+      gap: 22px;
+      align-items: start;
+    }
+    .hero-card{
+      background: rgba(15,22,36,.62);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .hero p{
+      font-size: 16px;
+      max-width: 60ch;
+    }
+    .cta-row{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .trust-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .trust-chip{
+      background: rgba(231,237,246,.05);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display:flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .chip-icon{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(141,182,255,.12);
+      border: 1px solid rgba(141,182,255,.22);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .chip-title{
+      font-weight: 750;
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    .chip-text{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Cards / grids */
+    .grid{
+      display:grid;
+      gap: 14px;
+    }
+    .card{
+      background: rgba(15,22,36,.62);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+    .card p{ font-size: 14px; }
+    .card ul{
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .card li{ margin: 6px 0; }
+
+    /* Process */
+    .steps{
+      display:grid;
+      gap: 14px;
+      counter-reset: step;
+    }
+    .step{
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: rgba(15,22,36,.62);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .step::before{
+      counter-increment: step;
+      content: counter(step);
+      position:absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(231,237,246,.06);
+      border: 1px solid var(--border);
+      display:grid;
+      place-items:center;
+      color: var(--muted);
+      font-weight: 800;
+    }
+    .step h3{ margin-bottom: 8px; }
+    .step p{ font-size: 14px; }
+
+    /* Work / case studies */
+    .case{
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .case-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .tag{
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      border: 1px solid var(--border);
+      background: rgba(231,237,246,.05);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .metrics{
+      display:grid;
+      gap: 10px;
+    }
+    .metric-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      border: 1px dashed rgba(231,237,246,.18);
+      background: rgba(231,237,246,.03);
+      padding: 12px;
+      border-radius: 12px;
+    }
+    .metric-row strong{
+      font-size: 13px;
+      color: var(--text);
+    }
+    .metric-row span{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* FAQ accordion */
+    .accordion{
+      display:grid;
+      gap: 12px;
+    }
+    details{
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: rgba(15,22,36,.62);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    summary{
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 16px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 750;
+      color: var(--text);
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .chev{
+      width: 18px; height: 18px; flex: 0 0 auto;
+      transition: transform .15s ease;
+      opacity: .9;
+    }
+    details[open] .chev{ transform: rotate(180deg); }
+    .faq-body{
+      padding: 0 16px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    summary:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    /* Contact */
+    form{
+      display:grid;
+      gap: 12px;
+    }
+    .form-grid{
+      display:grid;
+      gap: 12px;
+    }
+    label{
+      display:block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    input, textarea{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(231,237,246,.04);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+    textarea{ min-height: 120px; resize: vertical; }
+    input::placeholder, textarea::placeholder{ color: rgba(180,192,211,.72); }
+    input:focus, textarea:focus{ outline:none; box-shadow: var(--focus); border-color: rgba(141,182,255,.40); }
+
+    .checks{
+      display:grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(231,237,246,.03);
+    }
+    .check{
+      display:flex;
+      align-items:flex-start;
+      gap: 10px;
+    }
+    .check input{
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--accent);
+    }
+    .check span{
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .form-actions{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+    }
+    .small-note{
+      font-size: 12px;
+      color: var(--muted2);
+      margin-top: 8px;
+    }
+
+    /* Footer */
+    footer{
+      padding: 28px 0 36px;
+      border-top: 1px solid var(--border);
+      background: rgba(11,15,23,.75);
+    }
+    .footer-grid{
+      display:flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items:flex-start;
+      justify-content: space-between;
+    }
+    .social{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .social a{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(231,237,246,.05);
+      display:grid;
+      place-items:center;
+    }
+    .social a:hover{ background: rgba(231,237,246,.08); text-decoration:none; }
+    .social a:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .footer-text{
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    /* Responsive */
+    @media (min-width: 760px){
+      nav ul{ display:flex; }
+      .icon-btn{ display:none; }
+      .hero-grid{
+        grid-template-columns: 1.25fr .75fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+      .trust-row{
+        grid-template-columns: 1fr;
+      }
+      .grid.cols-2{ grid-template-columns: repeat(2, 1fr); }
+      .grid.cols-3{ grid-template-columns: repeat(3, 1fr); }
+      .steps{ grid-template-columns: repeat(2, 1fr); }
+      .metrics{ grid-template-columns: 1fr; }
+      .metric-row{
+        grid-template-columns: 1.2fr 1fr;
+        align-items: center;
+      }
+      .form-grid{
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid{
+        flex-direction: row;
+        align-items:center;
+      }
+    }
+    @media (min-width: 1040px){
+      .trust-row{
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior: auto; }
+      .chev{ transition:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header aria-label="Site header">
+    <div class="container">
+      <div class="nav" role="navigation" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Triumvirate PR home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Triumvirate PR</span>
+        </a>
+
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="btn primary" href="#contact" aria-label="Request a quote">Request a Quote</a>
+          <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+            <!-- simple hamburger icon (inline SVG) -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-panel" id="mobileMenu" aria-label="Mobile navigation">
+        <div class="container">
+          <a href="#services">Services</a>
+          <a href="#process">Process</a>
+          <a href="#work">Work</a>
+          <a href="#faqs">FAQs</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top" aria-label="Hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div class="section-head">
+              <div class="kicker">Tempe, Arizona</div>
+              <h1>Helping local businesses get found, trusted, and contacted.</h1>
+              <p>
+                We build and maintain online presence for owner-operated businesses: Google Business Profiles,
+                simple websites, and credible social media.
+              </p>
+            </div>
+
+            <div class="cta-row" role="group" aria-label="Primary actions">
+              <a class="btn primary" href="#contact">Request a Quote</a>
+              <a class="btn" href="#services">See Services</a>
+            </div>
+
+            <p class="small-note">
+              Practical scope, clear handoffs, client-owned assets.
+            </p>
+          </div>
+
+          <aside class="hero-card" aria-label="What you can expect">
+            <div class="section-head" style="margin-bottom:14px;">
+              <div class="kicker">What we focus on</div>
+              <h2 style="font-size:18px; letter-spacing:-0.01em;">Credibility and consistency</h2>
+            </div>
+
+            <div class="trust-row">
+              <div class="trust-chip">
+                <div class="chip-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 22s8-4 8-10V6l-8-3-8 3v6c0 6 8 10 8 10Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="m9 12 2 2 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="chip-title">Client-owned</div>
+                  <div class="chip-text">Sites and profiles are created under your ownership, with documented access.</div>
+                </div>
+              </div>
+
+              <div class="trust-chip">
+                <div class="chip-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M8 8h8M8 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="chip-title">Clear communication</div>
+                  <div class="chip-text">Short updates, simple choices, and a clean handoff when setup is complete.</div>
+                </div>
+              </div>
+
+              <div class="trust-chip">
+                <div class="chip-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 7h-7V4H6v3H4v13h16V7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M8 11h8M8 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="chip-title">Documented work</div>
+                  <div class="chip-text">You receive a checklist of what was changed, where, and how to access it.</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="divider" style="margin-top:38px;"></div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" aria-label="Services">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Services</div>
+          <h2>What we build and maintain</h2>
+          <p>Focused packages for owner-operated businesses that need a credible online footprint.</p>
+        </div>
+
+        <div class="grid cols-2" role="list">
+          <article class="card" role="listitem">
+            <h3>Online Presence Setup</h3>
+            <p>Google profile setup plus a clean one-page website for core business information.</p>
+            <ul>
+              <li>Google Business Profile setup/cleanup</li>
+              <li>One-page website (Squarespace or equivalent)</li>
+              <li>Basic on-page SEO and tracking handoff</li>
+            </ul>
+          </article>
+
+          <article class="card" role="listitem">
+            <h3>Monthly Presence Management</h3>
+            <p>Ongoing upkeep so your listings and site stay accurate and active.</p>
+            <ul>
+              <li>Profile and listing updates</li>
+              <li>Posting cadence for visibility (as appropriate)</li>
+              <li>Light website edits and content refresh</li>
+            </ul>
+          </article>
+
+          <article class="card" role="listitem">
+            <h3>Social Media Setup</h3>
+            <p>Clean profiles and a practical baseline that matches your business identity.</p>
+            <ul>
+              <li>Profile creation or refresh</li>
+              <li>Brand-consistent bio, photos, links</li>
+              <li>Starter content structure (what to post, when)</li>
+            </ul>
+          </article>
+
+          <article class="card" role="listitem">
+            <h3>Review System Setup</h3>
+            <p>Simple, compliant review flow that’s easy for customers to use.</p>
+            <ul>
+              <li>QR code + review link setup</li>
+              <li>On-site signage guidance (print-ready file)</li>
+              <li>Staff-friendly instructions for asking reviews</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="divider" style="margin-top:38px;"></div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" aria-label="Process">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Process</div>
+          <h2>A straightforward workflow</h2>
+          <p>Four steps that keep scope clear and timelines predictable.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <h3>Audit</h3>
+            <p>We review your current presence (search results, listings, site, and social) and identify the highest-impact fixes.</p>
+          </div>
+          <div class="step">
+            <h3>Setup</h3>
+            <p>We implement the agreed scope: profiles, website, review flow, and access structure under your ownership.</p>
+          </div>
+          <div class="step">
+            <h3>Launch</h3>
+            <p>We publish and verify key items, confirm the customer path (search → trust → contact), and document what’s live.</p>
+          </div>
+          <div class="step">
+            <h3>Maintain</h3>
+            <p>Monthly updates keep information accurate, support review momentum, and prevent the usual drift over time.</p>
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:38px;"></div>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" aria-label="Work examples">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Work</div>
+          <h2>Examples (placeholders)</h2>
+          <p>Case studies are shown as layout placeholders. No client names, logos, or fabricated results.</p>
+        </div>
+
+        <div class="grid cols-3" role="list">
+          <article class="card case" role="listitem" aria-label="Case study placeholder one">
+            <div class="case-top">
+              <div>
+                <h3>Case Study Template</h3>
+                <p>Local service business (placeholder)</p>
+              </div>
+              <span class="tag">Setup</span>
+            </div>
+            <div class="metrics" aria-label="Before and after metrics placeholders">
+              <div class="metric-row">
+                <strong>Before/After:</strong>
+                <span>calls, visibility, reviews (labels)</span>
+              </div>
+              <div class="metric-row">
+                <strong>Changed:</strong>
+                <span>GBP categories, contact path, site clarity</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card case" role="listitem" aria-label="Case study placeholder two">
+            <div class="case-top">
+              <div>
+                <h3>Case Study Template</h3>
+                <p>Retail / storefront (placeholder)</p>
+              </div>
+              <span class="tag">Management</span>
+            </div>
+            <div class="metrics" aria-label="Before and after metrics placeholders">
+              <div class="metric-row">
+                <strong>Before/After:</strong>
+                <span>calls, visibility, reviews (labels)</span>
+              </div>
+              <div class="metric-row">
+                <strong>Changed:</strong>
+                <span>posts cadence, hours updates, review flow</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card case" role="listitem" aria-label="Case study placeholder three">
+            <div class="case-top">
+              <div>
+                <h3>Case Study Template</h3>
+                <p>Professional services (placeholder)</p>
+              </div>
+              <span class="tag">Review System</span>
+            </div>
+            <div class="metrics" aria-label="Before and after metrics placeholders">
+              <div class="metric-row">
+                <strong>Before/After:</strong>
+                <span>calls, visibility, reviews (labels)</span>
+              </div>
+              <div class="metric-row">
+                <strong>Changed:</strong>
+                <span>QR placement, message prompts, staff script</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="divider" style="margin-top:38px;"></div>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section id="faqs" aria-label="Frequently asked questions">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">FAQs</div>
+          <h2>Common questions</h2>
+          <p>Clear answers so you can decide quickly.</p>
+        </div>
+
+        <div class="accordion" role="region" aria-label="FAQ accordion">
+          <details>
+            <summary>
+              Do you require long-term contracts?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <div class="faq-body">No. Work is scoped and quoted per business. Monthly management can be started or paused as needed.</div>
+          </details>
+
+          <details>
+            <summary>
+              How long does setup take?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <div class="faq-body">Typically 5–7 days once access and required information are provided.</div>
+          </details>
+
+          <details>
+            <summary>
+              Do you build on Squarespace?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <div class="faq-body">Yes. Sites are built in a client-owned Squarespace account (or transferred to one you own).</div>
+          </details>
+
+          <details>
+            <summary>
+              Do you manage reviews?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <div class="faq-body">Yes, as part of management. We support review requests, monitor new reviews, and help draft appropriate responses.</div>
+          </details>
+        </div>
+
+        <div class="divider" style="margin-top:38px;"></div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" aria-label="Contact">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Contact</div>
+          <h2>Request a quote</h2>
+          <p>Share a few details. We’ll respond with a scoped next step.</p>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="card">
+            <h3 style="margin-bottom:10px;">Contact form</h3>
+            <p style="margin-bottom:14px;">This form opens an email draft in your default mail app. No login or portal required.</p>
+
+            <form id="contactForm" aria-label="Quote request form">
+              <div class="form-grid">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+                </div>
+
+                <div>
+                  <label for="business">Business name</label>
+                  <input id="business" name="business" type="text" autocomplete="organization" placeholder="Business name" required />
+                </div>
+
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" autocomplete="email" placeholder="you@business.com" required />
+                </div>
+
+                <div>
+                  <label for="phone">Phone</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(###) ###-####" />
+                </div>
+              </div>
+
+              <fieldset class="checks" aria-label="Services interested in">
+                <legend style="padding:0 2px; color: var(--text); font-weight: 800; font-size: 13px;">Services interested in</legend>
+
+                <label class="check" for="svc1">
+                  <input id="svc1" type="checkbox" name="services" value="Online Presence Setup" />
+                  <span>Online Presence Setup (Google profile + one-page website)</span>
+                </label>
+
+                <label class="check" for="svc2">
+                  <input id="svc2" type="checkbox" name="services" value="Monthly Presence Management" />
+                  <span>Monthly Presence Management</span>
+                </label>
+
+                <label class="check" for="svc3">
+                  <input id="svc3" type="checkbox" name="services" value="Social Media Setup" />
+                  <span>Social Media Setup</span>
+                </label>
+
+                <label class="check" for="svc4">
+                  <input id="svc4" type="checkbox" name="services" value="Review System Setup" />
+                  <span>Review System Setup (QR + review link)</span>
+                </label>
+              </fieldset>
+
+              <div>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="What type of business is it, and what do you want improved?"></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn primary" type="submit" aria-label="Open email draft">Open Email Draft</button>
+                <button class="btn" type="button" id="copyBtn" aria-label="Copy message to clipboard">Copy Message</button>
+              </div>
+
+              <div class="small-note" id="formNote" aria-live="polite"></div>
+            </form>
+          </div>
+
+          <aside class="card" aria-label="Contact details and scope note">
+            <h3 style="margin-bottom:10px;">What to include</h3>
+            <p>To scope accurately, a few specifics help:</p>
+            <ul>
+              <li>Business type and service area</li>
+              <li>Whether you already have a Google Business Profile</li>
+              <li>Website status (none / outdated / active)</li>
+              <li>Preferred contact method</li>
+            </ul>
+
+            <div class="divider" style="margin:18px 0;"></div>
+
+            <p class="small-note">
+              All services are scoped and quoted per business. Work is documented, and access remains client-owned.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-text">Triumvirate Public Relations • Tempe, AZ</div>
+
+        <div class="social" aria-label="Social links (placeholders)">
+          <a href="#" aria-label="Social link placeholder 1" title="Social link placeholder">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1-12 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M18 11c.7 1.2 1 2.6 1 4a7 7 0 0 1-14 0c0-1.4.3-2.8 1-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Social link placeholder 2" title="Social link placeholder">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9.5 12a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M16.8 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Social link placeholder 3" title="Social link placeholder">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12c4-8 12-8 16 0-4 8-12 8-16 0Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M10 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="small-note" style="margin-top:10px;">
+        All services are scoped and quoted per business.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      function setMenu(open) {
+        mobileMenu.style.display = open ? 'block' : 'none';
+        menuBtn.setAttribute('aria-expanded', String(open));
+        menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      }
+
+      // Mobile menu toggle
+      if (menuBtn && mobileMenu) {
+        setMenu(false);
+        menuBtn.addEventListener('click', () => {
+          const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+          setMenu(!isOpen);
+        });
+
+        // Close menu when clicking a link
+        mobileMenu.addEventListener('click', (e) => {
+          const target = e.target;
+          if (target && target.tagName === 'A') setMenu(false);
+        });
+
+        // Close on escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') setMenu(false);
+        });
+
+        // Ensure correct state if resized to desktop
+        window.addEventListener('resize', () => {
+          if (window.innerWidth >= 760) setMenu(false);
+        });
+      }
+
+      // Contact form -> mailto draft
+      const form = document.getElementById('contactForm');
+      const note = document.getElementById('formNote');
+      const copyBtn = document.getElementById('copyBtn');
+
+      function getCheckedServices() {
+        const checked = Array.from(document.querySelectorAll('input[name="services"]:checked'));
+        return checked.map(el => el.value);
+      }
+
+      function buildEmailBody(data) {
+        const lines = [
+          "Quote Request — Triumvirate PR",
+          "",
+          `Name: ${data.name || ""}`,
+          `Business: ${data.business || ""}`,
+          `Email: ${data.email || ""}`,
+          `Phone: ${data.phone || ""}`,
+          `Services interested in: ${data.services.length ? data.services.join(", ") : "Not specified"}`,
+          "",
+          "Message:",
+          data.message || "(none)",
+          "",
+          "—",
+          "Sent from the Triumvirate PR website contact form."
+        ];
+        return lines.join("\n");
+      }
+
+      function setNote(msg) {
+        if (!note) return;
+        note.textContent = msg;
+      }
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const data = {
+            name: document.getElementById('name')?.value.trim(),
+            business: document.getElementById('business')?.value.trim(),
+            email: document.getElementById('email')?.value.trim(),
+            phone: document.getElementById('phone')?.value.trim(),
+            services: getCheckedServices(),
+            message: document.getElementById('message')?.value.trim()
+          };
+
+          // Minimal validation (HTML required fields cover most)
+          if (!data.name || !data.business || !data.email) {
+            setNote("Please fill in name, business name, and email.");
+            return;
+          }
+
+          const subject = encodeURIComponent(`Quote request — ${data.business}`);
+          const body = encodeURIComponent(buildEmailBody(data));
+
+          // Replace with a real email address when available
+          const to = "hello@triumviratepr.com";
+          const mailtoUrl = `mailto:${to}?subject=${subject}&body=${body}`;
+
+          // If the user doesn't have a mail client configured, provide a fallback message.
+          try {
+            window.location.href = mailtoUrl;
+            setNote("Opening your email draft… If nothing happens, use “Copy Message” and email it to hello@triumviratepr.com.");
+          } catch (err) {
+            setNote("Could not open your email client. Use “Copy Message” and email it to hello@triumviratepr.com.");
+          }
+        });
+      }
+
+      if (copyBtn) {
+        copyBtn.addEventListener('click', async () => {
+          const data = {
+            name: document.getElementById('name')?.value.trim(),
+            business: document.getElementById('business')?.value.trim(),
+            email: document.getElementById('email')?.value.trim(),
+            phone: document.getElementById('phone')?.value.trim(),
+            services: getCheckedServices(),
+            message: document.getElementById('message')?.value.trim()
+          };
+
+          const text = buildEmailBody(data);
+          try {
+            await navigator.clipboard.writeText(text);
+            setNote("Copied. Paste into an email to hello@triumviratepr.com.");
+          } catch (err) {
+            // Fallback for older browsers
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              setNote("Copied. Paste into an email to hello@triumviratepr.com.");
+            } catch (e2) {
+              setNote("Copy failed in this browser. Select and copy the text manually after submitting.");
+            }
+            document.body.removeChild(ta);
+          }
+        });
+      }
+
+      // Accordion accessibility: ensure only one open at a time (optional, calm UX)
+      const allDetails = Array.from(document.querySelectorAll('details'));
+      allDetails.forEach((d) => {
+        d.addEventListener('toggle', () => {
+          if (d.open) {
+            allDetails.forEach((other) => {
+              if (other !== d) other.open = false;
+            });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -18,23 +18,26 @@ Notes:
 
   <style>
     :root{
-      --bg: #0b0f17;
-      --surface: #0f1624;
-      --surface2: #111b2c;
-      --text: #e7edf6;
-      --muted: #b4c0d3;
-      --muted2: #7f90ab;
-      --border: rgba(231,237,246,.12);
+      /* Brand palette (matched to provided logo) */
+      --bg: #0b2a3a;              /* deep teal/navy */
+      --surface: #0e3246;         /* elevated surface */
+      --surface2: #103a52;        /* elevated surface (alt) */
+      --text: #f3f0ea;            /* warm off-white */
+      --muted: rgba(243,240,234,.78);
+      --muted2: rgba(243,240,234,.60);
+      --border: rgba(243,240,234,.14);
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --shadow2: 0 6px 18px rgba(0,0,0,.28);
-      --accent: #8db6ff;
-      --accent2: #b7f0c2;
-      --focus: 0 0 0 3px rgba(141,182,255,.35);
+
+      --gold: #b08b57;            /* logo gold */
+      --gold2: #d4b07a;           /* lighter gold */
+      --focus: 0 0 0 3px rgba(176,139,87,.35);
+
       --radius: 16px;
       --radius2: 12px;
       --max: 1120px;
       --navH: 72px;
-      --divider: linear-gradient(90deg, rgba(231,237,246,0), rgba(231,237,246,.14), rgba(231,237,246,0));
+      --divider: linear-gradient(90deg, rgba(243,240,234,0), rgba(176,139,87,.26), rgba(243,240,234,0));
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
@@ -45,8 +48,8 @@ Notes:
       margin:0;
       font-family: var(--font);
       background:
-        radial-gradient(1200px 700px at 10% -10%, rgba(141,182,255,.18), transparent 55%),
-        radial-gradient(900px 600px at 90% 0%, rgba(183,240,194,.10), transparent 60%),
+        radial-gradient(1200px 700px at 10% -10%, rgba(176,139,87,.22), transparent 55%),
+        radial-gradient(900px 600px at 90% 0%, rgba(212,176,122,.10), transparent 60%),
         var(--bg);
       color: var(--text);
       line-height: 1.5;
@@ -94,18 +97,29 @@ Notes:
     .brand{
       display:flex;
       align-items:center;
-      gap: 10px;
-      font-weight: 700;
+      gap: 12px;
+      font-weight: 800;
       letter-spacing: .2px;
       white-space: nowrap;
     }
-    .brand-mark{
-      width: 34px;
-      height: 34px;
+    .brand img{
+      width: 36px;
+      height: 36px;
       border-radius: 12px;
-      background: linear-gradient(135deg, rgba(141,182,255,.30), rgba(183,240,194,.18));
       border: 1px solid var(--border);
       box-shadow: var(--shadow2);
+      object-fit: cover;
+      background: rgba(243,240,234,.04);
+    }
+    .brand-text{
+      display:flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+    .brand-text .name{ font-size: 15px; }
+    .brand-text .sub{ font-size: 12px; color: var(--muted2); font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+    .brand-mark{
+      display:none; /* replaced by real logo image */
     }
     nav ul{
       display:none;
@@ -148,10 +162,11 @@ Notes:
     .btn:hover{ background: rgba(231,237,246,.09); text-decoration:none; }
     .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
     .btn.primary{
-      background: linear-gradient(135deg, rgba(141,182,255,.26), rgba(141,182,255,.14));
-      border-color: rgba(141,182,255,.35);
+      background: linear-gradient(135deg, rgba(176,139,87,.32), rgba(176,139,87,.16));
+      border-color: rgba(176,139,87,.48);
+      color: var(--text);
     }
-    .btn.primary:hover{ background: linear-gradient(135deg, rgba(141,182,255,.32), rgba(141,182,255,.16)); }
+    .btn.primary:hover{ background: linear-gradient(135deg, rgba(176,139,87,.40), rgba(176,139,87,.18)); }
     .icon-btn{
       width: 42px;
       height: 42px;
@@ -444,7 +459,7 @@ Notes:
     }
     textarea{ min-height: 120px; resize: vertical; }
     input::placeholder, textarea::placeholder{ color: rgba(180,192,211,.72); }
-    input:focus, textarea:focus{ outline:none; box-shadow: var(--focus); border-color: rgba(141,182,255,.40); }
+    input:focus, textarea:focus{ outline:none; box-shadow: var(--focus); border-color: rgba(176,139,87,.55); }
 
     .checks{
       display:grid;
@@ -463,7 +478,7 @@ Notes:
       width: 18px;
       height: 18px;
       margin-top: 2px;
-      accent-color: var(--accent);
+      accent-color: var(--gold);
     }
     .check span{
       font-size: 14px;
@@ -564,8 +579,12 @@ Notes:
     <div class="container">
       <div class="nav" role="navigation" aria-label="Primary navigation">
         <a class="brand" href="#top" aria-label="Triumvirate PR home">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span>Triumvirate PR</span>
+          <!-- Place the provided logo file next to this HTML with the exact name below -->
+          <img src="Triumvirate Public Relations L.L.C. Logo.png" alt="Triumvirate Public Relations logo" />
+          <span class="brand-text">
+            <span class="name">Triumvirate PR</span>
+            <span class="sub">Tempe, AZ</span>
+          </span>
         </a>
 
         <nav aria-label="Primary">
@@ -573,6 +592,7 @@ Notes:
             <li><a href="#services">Services</a></li>
             <li><a href="#process">Process</a></li>
             <li><a href="#work">Work</a></li>
+            <li><a href="#founders">Leadership</a></li>
             <li><a href="#faqs">FAQs</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -832,6 +852,57 @@ Notes:
               <div class="metric-row">
                 <strong>Changed:</strong>
                 <span>QR placement, message prompts, staff script</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="divider" style="margin-top:38px;"></div>
+      </div>
+    </section>
+
+    <!-- Founders -->
+    <section id="founders" aria-label="Founders">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Founders</div>
+          <h2>Leadership</h2>
+          <p>Triumvirate Public Relations is led by its three founders. Headshots and short bios can be added here.</p>
+        </div>
+
+        <div class="grid cols-3" role="list">
+          <article class="card" role="listitem" aria-label="Founder Andrew Lee">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="width:100%; aspect-ratio:1/1; border-radius:14px; border:1px dashed var(--border); background:rgba(243,240,234,.04); display:grid; place-items:center; color:var(--muted2); font-size:13px;">
+                Headshot Placeholder
+              </div>
+              <div>
+                <h3>Andrew Lee</h3>
+                <p>Co‑Founder</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" role="listitem" aria-label="Founder Jacob Schwartz">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="width:100%; aspect-ratio:1/1; border-radius:14px; border:1px dashed var(--border); background:rgba(243,240,234,.04); display:grid; place-items:center; color:var(--muted2); font-size:13px;">
+                Headshot Placeholder
+              </div>
+              <div>
+                <h3>Jacob Schwartz</h3>
+                <p>Co‑Founder</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" role="listitem" aria-label="Founder Taran Srinivasan">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="width:100%; aspect-ratio:1/1; border-radius:14px; border:1px dashed var(--border); background:rgba(243,240,234,.04); display:grid; place-items:center; color:var(--muted2); font-size:13px;">
+                Headshot Placeholder
+              </div>
+              <div>
+                <h3>Taran Srinivasan</h3>
+                <p>Co‑Founder</p>
               </div>
             </div>
           </article>
@@ -1119,7 +1190,7 @@ Notes:
           const body = encodeURIComponent(buildEmailBody(data));
 
           // Replace with a real email address when available
-          const to = "hello@triumviratepr.com";
+          const to = "hello@triumviratepr.com"; /* replace if different */
           const mailtoUrl = `mailto:${to}?subject=${subject}&body=${body}`;
 
           // If the user doesn't have a mail client configured, provide a fallback message.
